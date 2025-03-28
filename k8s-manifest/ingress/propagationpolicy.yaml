@@ -1,0 +1,35 @@
+apiVersion: policy.karmada.io/v1alpha1
+kind: PropagationPolicy
+metadata:
+  name: website-external-prop-policy
+  namespace: ingress-nginx
+spec:
+  resourceSelectors:
+    - apiVersion: v1
+      kind: Service
+      name: website-external
+  placement:
+    clusterAffinity:
+      clusterNames:
+        - cluster-ap-southeast-1
+        - cluster-eu-west-1
+        - cluster-us-east-1
+
+---
+
+apiVersion: policy.karmada.io/v1alpha1
+kind: PropagationPolicy
+metadata:
+  name: ingress-prop-policy
+  namespace: ingress-nginx
+spec:
+  resourceSelectors:
+    - apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      name: website-ingress
+  placement:
+    clusterAffinity:
+      clusterNames:
+        - cluster-ap-southeast-1
+        - cluster-eu-west-1
+        - cluster-us-east-1
