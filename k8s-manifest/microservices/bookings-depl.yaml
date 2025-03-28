@@ -26,7 +26,7 @@ spec:
           image: ghcr.io/mmorejon/cinema-bookings:v2.2.2
           args:
             - "-mongoURI"
-            - "mongodb://54.146.45.109:27017/"
+            - "mongodb://54.146.45.109:27017/booking"
           ports:
             - containerPort: 4000
           env:
