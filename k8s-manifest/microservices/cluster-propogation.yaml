@@ -1,0 +1,15 @@
+apiVersion: policy.karmada.io/v1alpha1
+kind: ClusterPropagationPolicy
+metadata:
+  name: cinema-namespace-propagation
+spec:
+  resourceSelectors:
+    - apiVersion: v1
+      kind: Namespace
+      name: cinema-production
+  placement:
+    clusterAffinity:
+      clusterNames:
+        - cluster-ap-southeast-1
+        - cluster-eu-west-1
+        - cluster-us-east-1

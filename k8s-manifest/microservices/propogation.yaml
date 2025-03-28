@@ -1,0 +1,21 @@
+apiVersion: policy.karmada.io/v1alpha1
+kind: PropagationPolicy
+metadata:
+  name: cinema-production-propagation
+  namespace: cinema-production
+spec:
+  resourceSelectors:
+    - apiVersion: "argoproj.io/v1alpha1"
+      kind: "Rollout"
+    - apiVersion: "autoscaling/v2"
+      kind: "HorizontalPodAutoscaler"
+    - apiVersion: "v1"
+      kind: "Service"
+    - apiVersion: "v1"
+      kind: "Secret"
+  placement:
+    clusterAffinity:
+      clusterNames:
+        - cluster-ap-southeast-1
+        - cluster-eu-west-1
+        - cluster-us-east-1

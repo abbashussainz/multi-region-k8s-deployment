@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: showtimes
+  namespace: cinema-production
+spec:
+  replicas: 1
+  strategy:
+    canary:
+      steps:
+        - setWeight: 20
+        - pause: { duration: 30s }
+        - setWeight: 50
+        - pause: { duration: 60s }
+        - setWeight: 100
+  selector:
+    matchLabels:
+      app: showtimes
+  template:
+    metadata:
+      labels:
+        app: showtimes
+    spec:
+      containers:
+        - name: showtimes
+          image: ghcr.io/mmorejon/cinema-showtimes:v2.2.2
+          args:
+            - "-mongoURI"
+            - "mongodb://54.146.45.109:27017/"
+          ports:
+            - containerPort: 4000
+          env:
+            - name: MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGODB_USERNAME
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGODB_PASSWORD
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"

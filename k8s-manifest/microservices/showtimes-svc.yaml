@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: showtimes
+  namespace: cinema-production
+spec:
+  selector:
+    app: showtimes
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
