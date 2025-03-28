@@ -26,7 +26,7 @@ spec:
           image: ghcr.io/mmorejon/cinema-users:v2.2.2
           args:
             - "-mongoURI"
-            - "mongodb://54.146.45.109:27017/"
+            - "mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@54.146.45.109:27017/users?authSource=admin"
           ports:
             - containerPort: 4000
           env:
