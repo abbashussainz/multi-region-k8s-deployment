@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: cinema-production
+  source:
+    repoURL: https://github.com/abbashussainz/multi-region-k8s-deployment
+    targetRevision: main
+    path: k8s-manifest/microservices
+  destination:
+    server: https://ad30ed336031840b382a836b7cc2508b-8dfeae18ea704734.elb.us-east-1.amazonaws.com:5443
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
